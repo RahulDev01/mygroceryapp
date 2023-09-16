@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { React, useState } from "react";
 import Header from "../common/Header";
-// import { TouchableOpacity } from "react-native-gesture-handler";
 import Home from "./tabs/Home";
 import Search from "./tabs/Search";
 import Notification from "./tabs/Notification";
