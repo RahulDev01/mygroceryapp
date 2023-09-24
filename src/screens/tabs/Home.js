@@ -2,11 +2,14 @@ import { View, Text, StyleSheet, Dimensions, Image, FlatList, TouchableOpacity }
 import React, { useEffect, useState } from "react";
 import Header from "../../common/Header";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addProducts } from "../../redux/slices/ProductsSlice";
 
 
 const Home = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getProducts();
@@ -17,6 +20,7 @@ const Home = () => {
       .then((res) => res.json())
       .then((json) => {
         setProducts(json);
+        dispatch(addProducts(json));
       });
   };
   return (
@@ -58,7 +62,7 @@ const Home = () => {
         }}
       />
     </View>
-  );
+  )
 };
 
 export default Home;
