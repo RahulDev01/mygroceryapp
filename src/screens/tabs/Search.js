@@ -2,18 +2,20 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity,FlatList, Di
 import React,{useState} from "react";
 import { useSelector } from "react-redux";
 import Header from "../../common/Header";
+import { useNavigation } from '@react-navigation/native';
 
 
 const Search = () => {
-  const products = useSelector((state) => state);
+  const navigation = useNavigation();
+  const products = useSelector((state) => state.product);
   const [search, setSearch] = useState('');
-  const [oldData, setOldData] = useState(products.product.data);
+  const [oldData, setOldData] = useState(products?.data||[]);
   const [searchedList, setSearchedList] = useState([]);
   const filterData = txt => {
     let newData = oldData.filter(item => {
       return item.title.toLowerCase().match(txt.toLowerCase());
     });
-    setSearchedList(newData);
+    newData.length && setSearchedList(newData);
   }
   return (
     <View style={styles.container}>
@@ -48,7 +50,7 @@ const Search = () => {
         )}
         
       </View>
-      <FlatList data={searchedList} renderItem={(item, index) => {
+      <FlatList data={searchedList} renderItem={({item, index}) => {
         return (
           <TouchableOpacity 
               activeOpacity={1}
