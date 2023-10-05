@@ -1,12 +1,16 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../common/Header'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import CustomButton from '../common/CustomButton'
+import { useDispatch } from 'react-redux'
+import { addItemToWishList } from '../redux/slices/WishlistSlice'
+import { addItemToCart } from '../redux/slices/CartSlice'
 
 const ProductDetail = () => {
     const navigation = useNavigation()
     const route = useRoute();
+    const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <Header 
@@ -17,21 +21,27 @@ const ProductDetail = () => {
             navigation.goBack();
         }}
       />
-      <Image source={{uri:route.params.data.image}} style={styles.banner}/>
-      <Text style={styles.title}>{route.params.data.title}</Text>
-      <Text style={styles.desc}>{route.params.data.description}</Text>
-      <View style={{flexDirection:'row'}}>
-      <Text style={[styles.price, {color: '#000'}]}>{'Price: '}</Text>
-      <Text style={styles.price}>{'$' + route.params.data.price}</Text>
-      </View>
-      <TouchableOpacity style={styles.wishlistBtn}>
+      <ScrollView>
+        <Image source={{uri:route.params.data.image}} style={styles.banner}/>
+        <Text style={styles.title}>{route.params.data.title}</Text>
+        <Text style={styles.desc}>{route.params.data.description}</Text>
+        <View style={{flexDirection:'row'}}>
+        <Text style={[styles.price, {color: '#000'}]}>{'Price: '}</Text>
+        <Text style={styles.price}>{'$' + route.params.data.price}</Text>
+        </View>
+        <TouchableOpacity style={styles.wishlistBtn} onPress={()=>{
+          dispatch(addItemToWishList(route.params.data))
+        }}>
         <Image source={require('../images/wishlist.png')} style={styles.icon}/>
-      </TouchableOpacity>
-      <CustomButton 
-      bg={'#FF9A0C'} 
-      title={'Add to Cart'} 
-      color={'#fff'} 
-      onClick={() => {}}/>
+        </TouchableOpacity>
+        <CustomButton 
+        bg={'#FF9A0C'} 
+        title={'Add to Cart'} 
+        color={'#fff'} 
+        onClick={() => {
+          dispatch(addItemToCart(route.params.data))
+        }}/>
+      </ScrollView>
     </View>
   )
 };

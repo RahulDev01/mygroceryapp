@@ -6,16 +6,20 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const Search = () => {
-  const navigation = useNavigation();
-  const products = useSelector((state) => state.product);
+  // const products = useSelector((state) => state.product);
+  const products = useSelector(state => state);
   const [search, setSearch] = useState('');
-  const [oldData, setOldData] = useState(products?.data||[]);
-  const [searchedList, setSearchedList] = useState([]);
+  const navigation = useNavigation();
+  // const [oldData, setOldData] = useState(products?.data||[]);
+  const [oldData, setOldData] = useState(products.product.data);
+  // const [searchedList, setSearchedList] = useState([]);
+  const [searchedList, setSearchedList] = useState(oldData);
   const filterData = txt => {
     let newData = oldData.filter(item => {
       return item.title.toLowerCase().match(txt.toLowerCase());
     });
-    newData.length && setSearchedList(newData);
+    // newData.length && setSearchedList(newData);
+    setSearchedList(newData);
   }
   return (
     <View style={styles.container}>
@@ -26,7 +30,7 @@ const Search = () => {
             source={require("../../images/search.png")}
             style={styles.icon}
           />
-          <TextInput
+            <TextInput
             value={search}
             onChangeText={txt => { 
               setSearch(txt);
@@ -34,22 +38,27 @@ const Search = () => {
             }}
             placeholder="Search items here...."
             style={styles.input}
-          />
+            />
         </View>
         {search !== '' && (
           <TouchableOpacity
           style={[
             styles.icon,
-            { justifyContent: "center", alignItems: "center" },
-          ]}>
+            { justifyContent: 'center', alignItems: 'center' }
+          ]}
+          onPress={() => {
+            setSearch('');
+            filterData('');
+          }}>
           <Image
             source={require("../../images/clear.png")}
-            style={[styles.icon, { width: 16, height: 16 }]}
+            style={[styles.icon, {width: 16, height: 16}]}
           />
         </TouchableOpacity>
         )}
         
       </View>
+      <View style={{marginTop: 50}}>
       <FlatList data={searchedList} renderItem={({item, index}) => {
         return (
           <TouchableOpacity 
@@ -75,6 +84,7 @@ const Search = () => {
             </TouchableOpacity>
         )
       }}/>
+      </View>
     </View>
   );
 };
@@ -99,8 +109,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    width: 26,
-    height: 26,
+    width: 24,
+    height: 24,
     resizeMode: "center",
   },
   input: {

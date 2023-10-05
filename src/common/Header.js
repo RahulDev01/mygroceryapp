@@ -1,5 +1,13 @@
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const { height, width } = Dimensions.get("window");
 
@@ -10,16 +18,38 @@ const Header = ({
   onClickLeftIcon,
   onClickRightIcon,
 }) => {
+  const cartItems = useSelector((state) => state.cart);
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.btn} onPress={()=>{
-        onClickLeftIcon();
-      }}>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => {
+          onClickLeftIcon();
+        }}
+      >
         <Image source={leftIcon} style={styles.icon} />
       </TouchableOpacity>
       <Text style={styles.title}>{title}</Text>
       <TouchableOpacity style={styles.btn}>
-        <Image source={rightIcon} style={[styles.icon,{width:40, height:40}]} />
+        <Image
+          source={rightIcon}
+          style={[styles.icon, { width: 40, height: 40 }]}
+        />
+        <View
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: 10,
+            backgroundColor: "#fff",
+            position: "absolute",
+            right: 0,
+            top: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{color: '#000'}}>{cartItems.data.length}</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -34,11 +64,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#0786DAFD",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems:'center',
+    alignItems: "center",
     // paddingLeft:15,
     // paddingRight:15,
     // paddingTop:15,
-    padding:15,
+    padding: 15,
   },
   btn: {
     width: 40,
@@ -49,10 +79,10 @@ const styles = StyleSheet.create({
   icon: {
     width: 30,
     height: 30,
-    tintColor: '#fff',
+    tintColor: "#fff",
   },
-  title:{
-    color:'#fff',
+  title: {
+    color: "#fff",
     fontSize: 20,
-  }
+  },
 });

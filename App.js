@@ -8,7 +8,7 @@ import { store } from './src/redux/store';
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar animated />
+      {/* <StatusBar animated /> */}
       <Provider store={store}>
         <AppNavigator />
       </Provider>

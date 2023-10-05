@@ -11,6 +11,6 @@ const ProductsSlice=createSlice({
             state.data = action.payload;
         },
     },
-})
+});
 export const {addProducts} = ProductsSlice.actions;
 export default ProductsSlice.reducer;
